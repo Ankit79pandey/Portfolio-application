@@ -1,0 +1,760 @@
+Project :As a Full Stack Developer, you have to create a frontend for the myPortfolio application. 
+*************************************************************************
+
+Step 1:index.html
+------------------
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Portfolio</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+</head>
+<body class="mat-typography">
+  <app-root></app-root>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+
+</body>
+</html>
+************************************************************************
+
+Step 2:Creating the json server for sign up and login.
+          
+db.json
+--------
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "first_name": "Robert",
+      "last_name": "Schwartz",
+      "email": "rob23@gmail.com",
+      "password": "1234567890"
+    },
+    {
+      "id": 2,
+      "first_name": "Lucy",
+      "last_name": "Ballmer",
+      "email": "lucyb56@gmail.com",
+      "password": "1234567890"
+    },
+    {
+      "id": 3,
+      "first_name": "Anna",
+      "last_name": "Smith",
+      "email": "annasmith23@gmail.com",
+      "password": "1234567890"
+    },
+    {
+      "id": 4,
+      "first_name": "Robert",
+      "last_name": "Brown",
+      "email": "bobbrown432@yahoo.com",
+      "password": "1234567890"
+    },
+    {
+      "id": 5,
+      "first_name": "Roger",
+      "last_name": "Bacon",
+      "email": "rogerbacon12@yahoo.com",
+      "password": "1234567890"
+    },
+    {
+      "fullname": "Ankit pandey",
+      "email": "ankit11081998@gmail.com",
+      "password": "Ankit@1998",
+      "mobile": "1234567890",
+      "id": 6
+    },
+    {
+      "fullname": "Ashwani Sharma",
+      "email": "ashwani@gmail.com",
+      "password": "1234567890",
+      "mobile": "1234567890",
+      "id": 7
+    },
+    {
+      "fullname": "Shalu pandey",
+      "email": "shalu@gmail.com",
+      "password": "1234567890",
+      "mobile": "1234567890",
+      "id": 8
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
+************************************************************************
+Step 3:app.module.ts
+---------------------
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpClientModule} from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './login/login.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { HomeComponent } from './home/home.component';
+@NgModule({
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    SignUpComponent,
+    PortfolioComponent,
+    AboutComponent,
+    ContactComponent,
+    HomeComponent, 
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+   HttpClientModule,
+   ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+************************************************************************ 
+
+Step 4:app.component.ts
+-------------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'Portfolio';
+}
+************************************************************************Step 5:app.component.html
+--------------------------
+<router-outlet></router-outlet>
+************************************************************************Step 6:app.routing.ts
+---------------------
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+
+const routes: Routes = [
+{path:'',redirectTo:'login',pathMatch:'full'},
+{path:'login',component:LoginComponent},
+{path:'signup',component:SignUpComponent},
+{path:'portfolio',component:PortfolioComponent},
+{path:"portfolio/home",component:HomeComponent},
+  {path:"portfolio/about",component:AboutComponent},
+  {path:"portfolio/contact",component:ContactComponent},
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+************************************************************************Step 7:Components
+-----------------
+
+about.component.html=>
+----------------------
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a href="#" routerLink="../../portfolio" class="navbar-brand">Portfolio</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../home"><img src="../../assets/png/002-home.png" alt=""> Home</a>
+        </li>
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../about"><img src="../../assets/png/003-play-buttton.png" alt="">About Us</a>
+        </li>
+  
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../contact"><img src="../../assets/png/006-phone-call.png" alt="">Contact Us</a>
+        </li>
+  
+    
+    </ul>
+  </nav>
+  <div class="container">
+    <h1>You can contact Us using social media sites</h1><br>
+    <h2><img src="../../assets/png/010-gmail.png" alt="">Gmail Id : ankit11081998@gmail.com</h2>
+    <h2><img src="../../assets/png/012-facebook-1.png" alt="">Facebook : 1234567890</h2>
+
+    <h2><img src="../../assets/png/011-instagram-1.png" alt="">Instagram :ankit_pandey001</h2>
+
+    <h2><img src="../../assets/png/005-whatsapp.png" alt="">WhatsApp : 1234567890</h2>
+
+    <h2><img src="../../assets/png/006-phone-call.png" alt="">Contact : 1234567890</h2>
+
+  </div>
+  
+........................................................................
+about.component.ts
+'''''''''''''''''''
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.css']
+})
+export class AboutComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+........................................................................
+about.component.css
+''''''''''''''''''''
+img{
+    margin-right: 20px;
+}
+.container{
+    margin-top: 10%;
+    text-align: center;
+}
+h1{
+    font-size: 30px;
+    font-weight: 500;
+    color:rgb(63, 113, 12)
+}
+************************************************************************
+Step 8:Contact Component
+------------------------
+contact.component.html
+''''''''''''''''''''''
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a href="#" routerLink="../../portfolio" class="navbar-brand">Portfolio</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../home"><img src="../../assets/png/002-home.png" alt=""> Home</a>
+        </li>
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../about"><img src="../../assets/png/003-play-buttton.png" alt="">About Us</a>
+        </li>
+  
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../contact"><img src="../../assets/png/006-phone-call.png" alt="">Contact Us</a>
+        </li>
+  
+    
+    </ul>
+  </nav>
+<div class="jumbotron">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2>CONTACT US</h2>
+
+                <form >
+                    <div class="form-group">
+                        <label>FirstName</label>
+                        <input type="text" formControlName="firstName" class="form-control" />
+                        <!--Custom Validations-->
+                    </div >
+                       
+        
+
+
+                    <!--Last Name-->
+                    <div class="form-group">
+                        <label>LastName</label>
+                        <input type="text" formControlName="lastName"   class="form-control" />
+                        <!--Custom Validations-->
+                    
+                    </div>
+
+
+                    <!--email-->
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" formControlName="email" class="form-control" />
+                        <!--Custom Validations-->
+                     
+                    </div>
+
+                    <!--Password-->
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="text" formControlName="password"   class="form-control" />
+                        <!--Custom Validations-->
+                       
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <button class="btn btn-primary">Contact Us</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    
+    
+</div>
+........................................................................contact.component.ts
+''''''''''''''''''''
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-contact',
+  templateUrl: './contact.component.html',
+  styleUrls: ['./contact.component.css']
+})
+export class ContactComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+************************************************************************
+Step 9:home component
+----------------------
+home.component.html
+'''''''''''''''''''
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a href="#" routerLink="../../portfolio" class="navbar-brand">Portfolio</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../home"><img src="../../assets/png/002-home.png" alt=""> Home</a>
+        </li>
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../about"><img src="../../assets/png/003-play-buttton.png" alt="">About Us</a>
+        </li>
+  
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="../contact"><img src="../../assets/png/006-phone-call.png" alt="">Contact Us</a>
+        </li>
+  
+    
+    </ul>
+  </nav>
+<div class="container" >
+    <div class="row">
+     <div class="card">
+        <h1> Hello, I am Ankit pandey
+        </h1>
+        <p>Currently I am working in a very reputed organization as a software Engineer .</p>
+     </div>
+
+    </div>
+</div>
+........................................................................
+home.component.ts
+'''''''''''''''''
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+........................................................................
+home.component.css
+''''''''''''''''''''''
+.card{
+    text-align: center;
+    align-items: center;
+    margin-top: 10%;
+    margin-left: 30%;
+    padding: 50px;
+    background: linear-gradient(90deg ,rgb(34, 65, 66) 0%,cadetblue 100%);
+    color: white;
+    font-weight: 500;
+    
+
+}
+************************************************************************
+Step 10:login component
+------------------------
+login.component.html
+'''''''''''''''''''''
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="text-center">
+                    <h1>Login</h1>
+                    <h6>Please enter Email & password !!</h6>
+                </div>
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                      <small id="emailHelp" class="form-text text-muted ">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                   
+                    <button type="submit" class="btn btn-primary ">Login</button>
+                  </form>
+                  <a routerLink="/signup">New User? Click to SignUp !!</a>
+            </div>
+        </div>
+    </div>
+</div>
+........................................................................login.component.ts
+'''''''''''''''''''
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import {FormGroup,FormBuilder} from '@angular/forms'
+import { Route, Router } from '@angular/router';
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+
+  public loginForm !: FormGroup
+  constructor(private formBuilder:FormBuilder,private HttpClient:HttpClient,private route:Router) { }
+
+  ngOnInit(): void {
+    this.loginForm=this.formBuilder.group({
+      email:[''],
+      password:['' ]
+    })
+  }
+
+  login(){
+
+    this.HttpClient.get<any>("http://localhost:3000/users")
+    .subscribe(res=>{
+      const user=res.find((a:any)=>{
+        return a.email===this.loginForm.value.email && a.password===this.loginForm.value.password
+      });
+      if(user){
+        alert("Login successful");
+        this.loginForm.reset();
+        this.route.navigate(["portfolio"])
+      }
+    })
+  }
+}
+........................................................................
+login.component.css
+''''''''''''''''''''''
+.card{
+    margin-top: 10px;
+    border: none;
+    width: 500px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+   background:linear-gradient(90deg, rgb(107, 107, 231) 0%,rgb(36, 36, 97) 100%);
+    color:white;
+    font-size: 16px;
+
+   
+
+}
+a{
+    margin-top: 20px;
+    color: rgb(237, 69, 237);
+    font-size: 20px;
+    font-weight: 500;
+    
+}
+h1{
+    font-size: 32px;
+    font-weight: 500;
+    color: white;
+}
+.btn{
+    align-items: center;
+    text-align: center;
+    margin-left: 25% ;
+    width: 200px;
+    font-weight: 500;
+    background-color: rgb(7, 43, 249);
+    border: none;
+    color: white;
+}
+
+
+************************************************************************Step 11:portfolio component
+---------------------------
+portfolio.component.html
+'''''''''''''''''''''''''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <title>Web Development Blog</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+
+<body>
+    
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a href="#" routerLink="Portfolio" class="navbar-brand">Portfolio</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="home"><img src="../../assets/png/002-home.png" alt=""> Home</a>
+        </li>
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="about"><img src="../../assets/png/003-play-buttton.png" alt="">About Us</a>
+        </li>
+  
+  
+        <li class="nav-item">
+            <a href="#" class="nav-link" routerLink="contact"><img src="../../assets/png/006-phone-call.png" alt="">Contact Us</a>
+        </li>
+  
+    
+    </ul>
+  </nav>
+	<div class="page-header">
+  		<h1 style=" text-align: center; font-size:40px;margin-top: 50px;margin-bottom: 50px;color:rgb(42, 100, 101);font-weight: 500;">Ankit pandey  <br><br>Full Stack Developer</h1>
+  		</div>
+
+        <div class="container second">
+
+
+            <div class="row">
+              
+                <div class="col-md-6">
+                  <img src="../../assets/292704308_485805193353970_3499817792884813721_n.webp" alt="">
+                </div>
+           
+            
+                <div class="col-md-6 text-center brief">
+                    <h1>Briefings</h1>
+                    <p><b>I am Ankit pandey. I am from Ghaziabad,Uttar Pradesh. I love to code. I prefer java in backend and Angular as a frontEnd. I want to become master in java so that I can build web applications and mobile applications. </b></p>
+                </div> 
+          
+           
+            </div>
+        </div>
+
+
+	
+
+	<!-- Footer -->
+	<footer class="page-footer font-small indigo">
+
+	  <!-- Copyright -->
+	  <div class="footer-copyright text-center py-3">This is the footer section where you can put the address and copyright details. © 2018 Copyright: 
+	    <a routerLink="contact" > Contact Us</a>
+	  </div>
+	  <!-- Copyright -->
+
+	</footer>
+	<!-- Footer -->
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    
+</body>
+</html>
+........................................................................portfolio.component.ts
+''''''''''''''''''''''
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-portfolio',
+  templateUrl: './portfolio.component.html',
+  styleUrls: ['./portfolio.component.css']
+})
+export class PortfolioComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+........................................................................
+portfolio.component.css
+''''''''''''''''''''''
+.brief h1{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-weight: 500;
+    font-size: 50px;
+    color: crimson;
+    font-style: italic;
+}
+
+.brief p{
+    letter-spacing: 1px;
+    font-size: larger;
+    color: rgb(102, 5, 99);
+    font-style: oblique;
+    font-size: 30px;
+}
+
+************************************************************************
+Step 12:Sign up component
+--------------------------
+sign-up.component.html
+''''''''''''''''''''''
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="text-center">
+                    <h1>SIGN UP</h1>
+                    <h6>Register User</h6>
+                </div>
+                <form [formGroup]="signupForm" (ngSubmit)="signUp()">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Full Name</label>
+                      <input formControlName="fullname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your name">
+                         </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Mobile Number</label>
+                      <input formControlName="mobile" type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                           </div>
+                           <div class="form-group">
+                            <label for="exampleInputEmail1">Password</label>
+                            <input formControlName="password" type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter password">
+                               </div>
+                    <button type="submit" class="btn btn-primary ">SignUp</button>
+                  </form>
+                  <a routerLink="/login">Already Registered? Click to login!!</a>
+            </div>
+        </div>
+    </div>
+</div>
+........................................................................sign-up.component.ts
+'''''''''''''''''''''
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import {FormGroup,FormBuilder} from '@angular/forms'
+import { Router } from '@angular/router';
+@Component({
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.css']
+})
+export class SignUpComponent implements OnInit {
+public signupForm!:FormGroup
+  constructor(private formBuilder:FormBuilder ,private http:HttpClient,private router:Router) { }
+
+  ngOnInit(): void {
+    this.signupForm=this.formBuilder.group({
+      fullname:[''],
+      email:[''],
+      password:[''],
+      mobile:['']
+    
+    })
+  }
+  signUp(){
+
+    this.http.post<any>("http://localhost:3000/users",this.signupForm.value)
+    .subscribe(res=>{
+      alert("SignUp successfully");
+      this.signupForm.reset(); 
+      this.router.navigate(['login'])
+    },err=>{
+      alert("Something went wrong")
+    })
+  }
+}
+........................................................................
+sign-up.component.css
+''''''''''''''''''''''
+.card{
+    padding: 40px;
+    border: none;
+    margin-top: 49px;
+    margin-left: 50%;
+    width: 500px;
+    background: linear-gradient(90deg, tomato 0%,rgb(228, 130, 113) 100%);
+    transition: 0.5s;
+    font-weight: 500;
+    color: white;
+    
+}
+a{
+    margin-top: 20px;
+    color: rgb(130, 3, 130);
+    font-size: 20px;
+    font-weight: 500;
+    
+}
+.card:hover{
+    box-shadow: 0px 10px 10px 10px #888888;
+}
+.btn{
+    margin-left: 25%;
+    font-weight: 400;
+    width: 200px;
+}
+************************************************************************
